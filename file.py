@@ -1,5 +1,5 @@
 from flask import Flask
-#from flask import request
+from flask import request
 import requests
 import json
 
@@ -38,6 +38,7 @@ def api_php_request(num_ques, cat, dif, q_type):
     :rtype: dictionary
     """
 
+    # TODO: fix the address
     fixed_address = 'https://opentdb.com/api.php?'
     amount = 'amount=' + num_ques
     category = 'category=' + cat
@@ -51,8 +52,6 @@ def api_php_request(num_ques, cat, dif, q_type):
     response_to_txt = response.text
 
     response_dict = json.loads(response_to_txt)
-    print(response_dict['response_code'])
-    print(response_dict['results'])
 
     return response_dict
 
@@ -65,9 +64,7 @@ def question_parser(response_from_post_request):
     """
     if response_from_post_request['response_code'] is 0:
         question = response_from_post_request['results'][0]['question']
-        print(response_from_post_request['results'][0]['question'])
         if response_from_post_request['results'][0]['type'] == 'multiple':
-            print('ok')
             correct_answer = response_from_post_request['results'][0]['correct_answer']
             incorrect_answers_list = response_from_post_request['results'][0]['incorrect_answers']
             incorrect_answers = ''
