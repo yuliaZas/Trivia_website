@@ -43,6 +43,18 @@ def api_php_request(number_questions, category, difficulty, question_type):
     return api_url
 
 
+def response_code_handling(response_code):
+    if response_code is 1:
+        print("No Results Could not return results. The API doesn't have enough questions for your query.")
+    elif response_code is 2:
+        print("Invalid Parameter Contains an invalid parameter. Arguments passed in aren't valid.")
+    elif response_code is 3:
+        print("Token Not Found Session Token does not exist.")
+    elif response_code is 4:
+        print("Token Empty Session Token has returned all possible questions for the specified query."
+              "Resetting the Token is necessary.")
+
+
 def question_parser(response_from_post_request):
     """
     The function gets the dictionary which "api_php_request" returned and parse it to question and answers.
@@ -57,23 +69,15 @@ def question_parser(response_from_post_request):
             incorrect_answers = ''
             for answer in incorrect_answers_list:
                 incorrect_answers += answer + ' ; '
+            correct_and_incorrect_answer = correct_answer + '\\' + incorrect_answers
         else:
             correct_answer = response_from_post_request['results'][0]['correct_answer']
-            incorrect_answers = response_from_post_request['results'][0]['incorrect_answers'][0]
-
-        all_answers = correct_answer + '\\' + incorrect_answers
+            incorrect_answer = response_from_post_request['results'][0]['incorrect_answers'][0]
+            correct_and_incorrect_answer = correct_answer + '\\' + incorrect_answer
     else:
-        if response_from_post_request['response_code'] is 1:
-            print("No Results Could not return results. The API doesn't have enough questions for your query.")
-        elif response_from_post_request['response_code'] is 2:
-            print("Invalid Parameter Contains an invalid parameter. Arguments passed in aren't valid.")
-        elif response_from_post_request['response_code'] is 3:
-            print("Token Not Found Session Token does not exist.")
-        elif response_from_post_request['response_code'] is 4:
-            print("Token Empty Session Token has returned all possible questions for the specified query."
-                  "Resetting the Token is necessary.")
+        response_code_handling(response_from_post_request['response_code'])
 
-    return question + '\\' + all_answers
+    return question + '\\' + correct_and_incorrect_answer
 
 
 def post_request_api(api_url):
@@ -102,13 +106,13 @@ def question_generator():
     return question
 
 
+if __name__ == '__main__':
+    app.run()
+
+
 # https://opentdb.com/api.php?amount=10&category=9
 # https://opentdb.com/api.php?amount=1&category=25&difficulty=easy&type=multiple
 # http://127.0.0.1:5000/ques_generator?amount=1&category=25&difficulty=easy&type=multiple
-
-
-if __name__ == '__main__':
-    app.run()
 
 
 """
