@@ -63,8 +63,15 @@ def question_parser(response_from_post_request):
 
         all_answers = correct_answer + '\\' + incorrect_answers
     else:
-        # TODO: deal with the response_code
-        response_code = 0
+        if response_from_post_request['response_code'] is 1:
+            print("No Results Could not return results. The API doesn't have enough questions for your query.")
+        elif response_from_post_request['response_code'] is 2:
+            print("Invalid Parameter Contains an invalid parameter. Arguments passed in aren't valid.")
+        elif response_from_post_request['response_code'] is 3:
+            print("Token Not Found Session Token does not exist.")
+        elif response_from_post_request['response_code'] is 4:
+            print("Token Empty Session Token has returned all possible questions for the specified query."
+                  "Resetting the Token is necessary.")
 
     return question + '\\' + all_answers
 
