@@ -1,5 +1,5 @@
-from flask import Flask, render_template
-from flask import request
+from flask import Flask, render_template, request
+
 import requests
 import json
 
@@ -9,12 +9,7 @@ app = Flask(__name__)
 # TODO: main window
 @app.route('/')
 def home():
-    return render_template("home.html")
-
-
-@app.route('/about')
-def about():
-    return render_template("about.html")
+    return 'Hello, World!'
 
 
 def api_php_request(number_questions, category, difficulty, question_type):
@@ -91,7 +86,7 @@ def post_request_api(api_url):
     return response
 
 
-@app.route('/ques_generator', methods=['GET'])
+@app.route('/question_generator', methods=['GET'])
 def question_generator():
     """
     This is the GET request from the player.
@@ -117,7 +112,7 @@ if __name__ == '__main__':
 
 # https://opentdb.com/api.php?amount=10&category=9
 # https://opentdb.com/api.php?amount=1&category=25&difficulty=easy&type=multiple
-# http://127.0.0.1:5000/ques_generator?amount=1&category=25&difficulty=easy&type=multiple
+# http://127.0.0.1:5000/question_generator?amount=1&category=25&difficulty=easy&type=multiple
 
 
 """
