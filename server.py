@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 from flask import request
 import requests
 import json
@@ -8,8 +8,13 @@ app = Flask(__name__)
 
 # TODO: main window
 @app.route('/')
-def hello_world():
-    return 'Hello, World!'
+def home():
+    return render_template("home.html")
+
+
+@app.route('/about')
+def about():
+    return render_template("about.html")
 
 
 def api_php_request(number_questions, category, difficulty, question_type):
