@@ -28,7 +28,6 @@ def api_php_request(number_questions, category, difficulty, question_type):
     :rtype: dictionary
     """
 
-    # TODO: fix the address
     fixed_address = 'https://opentdb.com/api.php?'
     amount = 'amount=' + number_questions
     category = 'category=' + category
@@ -58,10 +57,11 @@ def question_parser(response_from_post_request):
             incorrect_answers = ''
             for answer in incorrect_answers_list:
                 incorrect_answers += answer + ' ; '
-            all_answers = correct_answer + '\\' + incorrect_answers
         else:
-            # TODO: deal with the true false question type
-            all_answers = 'boolean'
+            correct_answer = response_from_post_request['results'][0]['correct_answer']
+            incorrect_answers = response_from_post_request['results'][0]['incorrect_answers'][0]
+
+        all_answers = correct_answer + '\\' + incorrect_answers
     else:
         # TODO: deal with the response_code
         response_code = 0
