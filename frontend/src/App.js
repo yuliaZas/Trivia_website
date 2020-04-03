@@ -21,7 +21,8 @@ export default class App extends Component {
     return (
         <div className="App">
           <header className="App-header">
-            <img src={logo} className="App-logo" alt="logo" />
+            <img src='./trivia-logo.jpg' className="App-logo" alt="logo-trivia" />
+
             <p>
               Welcome to my Trivia web site :)
             </p>
@@ -43,3 +44,6 @@ export default class App extends Component {
   }
 }
 
+/*
+* <img src={logo} className="App-logo" alt="logo" />
+* */
