@@ -21,7 +21,7 @@ export default class App extends Component {
     return (
         <div className="App">
           <header className="App-header">
-            <img src='./trivia-logo.jpg' className="App-logo" alt="logo-trivia" />
+            <img src='./trivia.png' alt="logo-trivia" />
 
             <p>
               Welcome to my Trivia web site :)
