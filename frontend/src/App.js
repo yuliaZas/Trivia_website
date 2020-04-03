@@ -23,7 +23,7 @@ export default class App extends Component {
           <header className="App-header">
             <img src={logo} className="App-logo" alt="logo" />
             <p>
-              Welcome to my Trivia web site.
+              Welcome to my Trivia web site :)
             </p>
             <BlueButton text={this.state.text} />
             <TextField id="standard-basic" label="Standard"
