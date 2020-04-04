@@ -12,7 +12,7 @@ export default class BlueButton extends Component{
 
     handleClick = () => {
         if (this.state.color === "white"){
-            this.setState({color: "pink"})
+            this.setState({color: "#61dafb"})
         }
         else {
             this.setState({color: "white"})
