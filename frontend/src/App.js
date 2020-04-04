@@ -10,10 +10,8 @@ export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      text: "I'm text",
-
+      text: "I'm text"
     }
-
   }
 
   handleChange = (e) => {
