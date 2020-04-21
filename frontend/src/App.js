@@ -4,18 +4,25 @@ import BlueButton from "./component/BlueButton";
 import SelectorCategory from "./component/SelectorCategory";
 import SelectorQuestionType from "./component/SelectorQuestionType";
 import SelectorDifficulty from "./component/SelectorDifficulty";
+import ApiCategory from "./component/ApiCategory";
 import TextField from "@material-ui/core/TextField";
+import TesterSelector from "./component/TesterSelector";
 
 export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      text: "I'm text"
+      text: "I'm text",
+      category: ''
     }
   }
 
   handleChange = (e) => {
   this.setState({text: e.target.value });
+  };
+
+  handleCategoryChange = (event) => {
+    this.setState({category: event.target.value});
   };
 
   render() {
@@ -30,7 +37,8 @@ export default class App extends Component {
             <TextField id="standard-basic" label="ENTER YOUR NAME"
                        onChange={this.handleChange}
             />
-            <SelectorCategory />
+            <ApiCategory/>
+            <SelectorCategory category={this.state.category} onCategoryChange={this.handleCategoryChange}/>
             <SelectorQuestionType/>
             <SelectorDifficulty/>
             <BlueButton text="PLAY!"/>

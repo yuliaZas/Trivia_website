@@ -15,12 +15,12 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function CategorySelect() {
+export default function CategorySelect(props) {
     const classes = useStyles();
-    const [category, setCategory] = React.useState('');
+
 
     const handleChange = (event) => {
-        setCategory(event.target.value);
+        props.onCategoryChange(event.target.value);
     };
 
     return (
@@ -30,7 +30,7 @@ export default function CategorySelect() {
                 <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
-                    value={category}
+                    value={props.category}
                     onChange={handleChange}
                 >
                     <MenuItem value={9}>General Knowledge</MenuItem>
@@ -45,7 +45,7 @@ export default function CategorySelect() {
                     <MenuItem value={18}>Science: Computers</MenuItem>
                     <MenuItem value={19}>Science: Mathematics</MenuItem>
                     <MenuItem value={20}>Mythology</MenuItem>
-                    <MenuItem value={21}>"Sports</MenuItem>
+                    <MenuItem value={21}>Sports</MenuItem>
                     <MenuItem value={22}>Geography</MenuItem>
                     <MenuItem value={23}>History</MenuItem>
                     <MenuItem value={24}>Politics</MenuItem>
