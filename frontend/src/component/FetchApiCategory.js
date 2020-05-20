@@ -30,7 +30,7 @@ export default class FetchApiCategory extends Component {
                 <option key={item.name}>{item.name}</option>
             );
             return (
-                <div>onChange={this.handleChange}</div>
+                <div onChange={this.handleChange} />
             );
         }
     }

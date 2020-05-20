@@ -12,16 +12,15 @@ export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      text: "I'm text",
+      userName: "",
       categoryItems: [],
       category: '',
       difficulty: null,
-      questionType: null,
-      userName: ""
+      questionType: null
     }
   }
 
-  handleChange = (e) => {
+  handleTextChange = (e) => {
   this.setState({text: e.target.value });
   };
 
@@ -51,14 +50,14 @@ export default class App extends Component {
               Welcome to my TRIVIA web site!
             </p>
             <TextField id="standard-basic" label="ENTER YOUR NAME"
-                       onChange={this.handleChange}
+                       onChange={this.handleTextChange}
             />
             <FetchApiCategory onFetch={this.handleFetchApiCategoryChange}/>
-            <TestCategorySelector />
+
             <SelectorCategory category={this.state.category} onCategoryChange={this.handleCategoryChange}/>
             <SelectorQuestionType questionType={this.state.questionType} onQuestionTypeChange={this.handleQuestionTypeChange}/>
             <SelectorDifficulty difficulty={this.state.difficulty} onDifficultyChange={this.handleDifficultyChange}/>
-            <BlueButton text={this.state.text}/>
+            <BlueButton text="Play!"/>
           </header>
         </div>
     );
