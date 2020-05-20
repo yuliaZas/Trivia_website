@@ -41,7 +41,7 @@ export default class ApiCategory extends Component {
                 <ul>
                     {this.state.items.map(item => (
                         <li key={item.name}>
-                            {item.name} {item.id}
+                            name:{item.name} id:{item.id}
                         </li>
                     ))}
                 </ul>

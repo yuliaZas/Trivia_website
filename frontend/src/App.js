@@ -14,6 +14,7 @@ export default class App extends Component {
     this.state = {
       text: "I'm text",
       category: ''
+      // TODO: add the properties for the answer to the server
     }
   }
 
