@@ -4,15 +4,15 @@ import BlueButton from "./component/BlueButton";
 import SelectorCategory from "./component/SelectorCategory";
 import SelectorQuestionType from "./component/SelectorQuestionType";
 import SelectorDifficulty from "./component/SelectorDifficulty";
-import ApiCategory from "./component/ApiCategory";
+import FetchApiCategory from "./component/FetchApiCategory";
 import TextField from "@material-ui/core/TextField";
-import TesterSelector from "./component/TesterSelector";
 
 export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       text: "I'm text",
+      categoryItems: [],
       category: ''
       // TODO: add the properties for the answer to the server
     }
@@ -21,6 +21,10 @@ export default class App extends Component {
   handleChange = (e) => {
   this.setState({text: e.target.value });
   };
+
+  handleFetchApiCategoryChange = (items) => {
+    this.setState({categoryList: items});
+  }
 
   handleCategoryChange = (event) => {
     this.setState({category: event.target.value});
@@ -38,11 +42,18 @@ export default class App extends Component {
             <TextField id="standard-basic" label="ENTER YOUR NAME"
                        onChange={this.handleChange}
             />
-            <ApiCategory/>
+            <FetchApiCategory onFetch={this.handleFetchApiCategoryChange}/>
+            <ul>
+              {this.state.categoryItems.map(item => (
+                  <li key={item.name}>
+                    name:{item.name} id:{item.id}
+                  </li>
+              ))}
+            </ul>
             <SelectorCategory category={this.state.category} onCategoryChange={this.handleCategoryChange}/>
             <SelectorQuestionType/>
             <SelectorDifficulty/>
-            <BlueButton text="PLAY!"/>
+            <BlueButton text={this.state.text}/>
           </header>
         </div>
     );
