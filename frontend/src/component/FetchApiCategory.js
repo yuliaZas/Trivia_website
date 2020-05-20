@@ -26,6 +26,9 @@ export default class FetchApiCategory extends Component {
         if (!this.state.isLoaded) {
             return <div>Loading...</div>;
         } else {
+            const optionItems = this.state.items.map((item) =>
+                <option key={item.name}>{item.name}</option>
+            );
             return (
                 <div>onChange={this.handleChange}</div>
             );

@@ -15,12 +15,12 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function DifficultySelect() {
+export default function DifficultySelect(props) {
     const classes = useStyles();
     const [difficulty, setDifficulty] = React.useState('');
 
     const handleChange = (event) => {
-        setDifficulty(event.target.value);
+        props.onDifficultyChange(event.target.value);
     };
 
     return (

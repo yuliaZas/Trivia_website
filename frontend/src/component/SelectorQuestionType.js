@@ -15,12 +15,11 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function TypeSelect() {
+export default function TypeSelect(props) {
     const classes = useStyles();
-    const [questionType, setQuestionType] = React.useState('');
 
     const handleChange = (event) => {
-        setQuestionType(event.target.value);
+        props.onQuestionTypeChange(event.target.value);
     };
 
     return (
@@ -30,7 +29,7 @@ export default function TypeSelect() {
                 <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
-                    value={questionType}
+                    value={props.questionType}
                     onChange={handleChange}
                 >
                     <MenuItem value={"multiple"}>Multiple</MenuItem>

@@ -5,6 +5,7 @@ import SelectorCategory from "./component/SelectorCategory";
 import SelectorQuestionType from "./component/SelectorQuestionType";
 import SelectorDifficulty from "./component/SelectorDifficulty";
 import FetchApiCategory from "./component/FetchApiCategory";
+import TestCategorySelector from "./component/TestCategorySelector";
 import TextField from "@material-ui/core/TextField";
 
 export default class App extends Component {
@@ -13,8 +14,10 @@ export default class App extends Component {
     this.state = {
       text: "I'm text",
       categoryItems: [],
-      category: ''
-      // TODO: add the properties for the answer to the server
+      category: '',
+      difficulty: null,
+      questionType: null,
+      userName: ""
     }
   }
 
@@ -30,6 +33,14 @@ export default class App extends Component {
     this.setState({category: event.target.value});
   };
 
+  handleDifficultyChange = (event) => {
+    this.setState({difficulty: event.target.value});
+  };
+
+  handleQuestionTypeChange = (event) => {
+    this.setState({questionType: event.target.value});
+  };
+
   render() {
     return (
         <div className="App">
@@ -43,16 +54,10 @@ export default class App extends Component {
                        onChange={this.handleChange}
             />
             <FetchApiCategory onFetch={this.handleFetchApiCategoryChange}/>
-            <ul>
-              {this.state.categoryItems.map(item => (
-                  <li key={item.name}>
-                    name:{item.name} id:{item.id}
-                  </li>
-              ))}
-            </ul>
+            <TestCategorySelector />
             <SelectorCategory category={this.state.category} onCategoryChange={this.handleCategoryChange}/>
-            <SelectorQuestionType/>
-            <SelectorDifficulty/>
+            <SelectorQuestionType questionType={this.state.questionType} onQuestionTypeChange={this.handleQuestionTypeChange}/>
+            <SelectorDifficulty difficulty={this.state.difficulty} onDifficultyChange={this.handleDifficultyChange}/>
             <BlueButton text={this.state.text}/>
           </header>
         </div>
