@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { Button } from '@material-ui/core';
 
 
-export default class BlueButton extends Component{
+export default class PlayButton extends Component{
     constructor(props) {
         super(props);
         this.state = {

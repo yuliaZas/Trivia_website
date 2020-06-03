@@ -1,17 +1,19 @@
 import React, {Component} from 'react';
 import './App.css';
-import BlueButton from "./component/BlueButton";
-import SelectorCategory from "./component/SelectorCategory";
-import SelectorQuestionType from "./component/SelectorQuestionType";
-import SelectorDifficulty from "./component/SelectorDifficulty";
-import FetchApiCategory from "./component/FetchApiCategory";
-import TestCategorySelector from "./component/TestCategorySelector";
+
+import PlayButton from "./component/PlayButton";
+import Selector_QuestionType from "./component/Selector_QuestionType";
+import Selector_Category from "./component/Selector_Category";
+import Selector_Difficulty from "./component/Selector_Difficulty";
+
 import TextField from "@material-ui/core/TextField";
+
 
 export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      text: "Play!",
       userName: "",
       categoryItems: [],
       category: '',
@@ -21,7 +23,7 @@ export default class App extends Component {
   }
 
   handleTextChange = (e) => {
-  this.setState({text: e.target.value });
+  this.setState({userName: e.target.value });
   };
 
   handleFetchApiCategoryChange = (items) => {
@@ -29,15 +31,15 @@ export default class App extends Component {
   }
 
   handleCategoryChange = (event) => {
-    this.setState({category: event.target.value});
+    this.setState({category: event});
   };
 
   handleDifficultyChange = (event) => {
-    this.setState({difficulty: event.target.value});
+    this.setState({difficulty: event});
   };
 
   handleQuestionTypeChange = (event) => {
-    this.setState({questionType: event.target.value});
+    this.setState({questionType: event});
   };
 
   render() {
@@ -52,12 +54,12 @@ export default class App extends Component {
             <TextField id="standard-basic" label="ENTER YOUR NAME"
                        onChange={this.handleTextChange}
             />
-            <FetchApiCategory onFetch={this.handleFetchApiCategoryChange}/>
 
-            <SelectorCategory category={this.state.category} onCategoryChange={this.handleCategoryChange}/>
-            <SelectorQuestionType questionType={this.state.questionType} onQuestionTypeChange={this.handleQuestionTypeChange}/>
-            <SelectorDifficulty difficulty={this.state.difficulty} onDifficultyChange={this.handleDifficultyChange}/>
-            <BlueButton text="Play!"/>
+            <Selector_Category category={this.state.category} onCategoryChange={this.handleCategoryChange}/>
+            <Selector_Difficulty difficulty={this.state.difficulty} onDifficultyChange={this.handleDifficultyChange}/>
+            <Selector_QuestionType questionType={this.state.questionType} onQuestionTypeChange={this.handleQuestionTypeChange}/>
+            
+            <PlayButton text={this.state.text}/>
           </header>
         </div>
     );
@@ -66,7 +68,16 @@ export default class App extends Component {
 
 /*
 * <img src={logo} className="App-logo" alt="logo" />
-* <BlueButton text={this.state.text} />
+* <PlayButton text={this.state.text} />
+* <SelectorQuestionType questionType={this.state.questionType} onQuestionTypeChange={this.handleQuestionTypeChange}/>
+*
+*           <div>TEST</div>
+            <div>Selected category is : {this.state.category}</div>
+            <div>Selected difficulty is : {this.state.difficulty}</div>
+            <div>Selected questionType is : {this.state.questionType}</div>
+            <div>User name is : {this.state.userName}</div>
+*
+*
 * the link: (can be used during questions)
 *  <a
                 className="App-link"
