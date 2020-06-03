@@ -5,6 +5,8 @@ import json
 
 app = Flask(__name__)
 
+MAX_QUESTION_AMOUNT = 50
+
 
 # TODO: main window
 @app.route('/')
@@ -29,7 +31,7 @@ def api_php_request(number_questions, category, difficulty, question_type):
     """
 
     fixed_address = 'https://opentdb.com/api.php?'
-    amount = 'amount=' + number_questions
+    amount = 'amount=' + str(number_questions)
     category = 'category=' + category
 
     if difficulty is not None:
@@ -86,6 +88,21 @@ def post_request_api(api_url):
     return response
 
 
+def response_parser_to_amount(response_from_post_request, difficulty):
+    total_difficulty_question_count = 'total_' + difficulty + '_question_count'
+    if response_from_post_request['category_question_count'][total_difficulty_question_count] <= MAX_QUESTION_AMOUNT:
+        amount = response_from_post_request['category_question_count'][total_difficulty_question_count]
+    else:
+        amount = MAX_QUESTION_AMOUNT
+    return amount
+
+
+def categoryQuestionCount(category, difficulty):
+    response_from_post_request = post_request_api('https://opentdb.com/api_count.php?category=' + str(category))
+    questionAmount = response_parser_to_amount(response_from_post_request, difficulty)
+    return questionAmount
+
+
 @app.route('/question_generator', methods=['GET'])
 def question_generator():
     """
@@ -97,22 +114,23 @@ def question_generator():
     difficulty = request.args.get('difficulty')
     question_type = request.args.get('type')
     category = request.args.get('category')
-    amount = request.args.get('amount')
+    # define question amount by category and difficulty the player has chosen
+    amount = categoryQuestionCount(category, difficulty)
 
     api_url = api_php_request(amount, category, difficulty, question_type)
     response_from_post_request = post_request_api(api_url)
     question = question_parser(response_from_post_request)
 
-    return question
+    return response_from_post_request
 
 
 if __name__ == '__main__':
     app.run()
 
-
 # https://opentdb.com/api.php?amount=10&category=9
 # https://opentdb.com/api.php?amount=1&category=25&difficulty=easy&type=multiple
 # http://127.0.0.1:5000/question_generator?amount=1&category=25&difficulty=easy&type=multiple
+# /question_generator?category=25&difficulty=easy&type=multiple
 
 
 """
@@ -121,4 +139,3 @@ q_type(type): any, multi, tf
 number of questions(amount): right now one question
 category: make a map with key for the category and val with the number associated
 """
-
