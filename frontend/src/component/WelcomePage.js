@@ -5,7 +5,7 @@ import PlayButton from "./PlayButton";
 import Selector_QuestionType from "./Selector_QuestionType";
 import Selector_Category from "./Selector_Category";
 import Selector_Difficulty from "./Selector_Difficulty";
-import Button from "./Button";
+import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 
 export default class welcomePage extends Component {
@@ -74,6 +74,9 @@ export default class welcomePage extends Component {
                     <Selector_Difficulty className="home-selector" difficulty={this.state.difficulty} onDifficultyChange={this.handleDifficultyChange}/>
                     <Selector_QuestionType className="home-selector" questionType={this.state.questionType} onQuestionTypeChange={this.handleQuestionTypeChange}/>
                     <Button text={this.state.text} onClick={this.handleClick}/>
+
+                    <div>User name is : {this.state.userName}</div>
+                    <div>User name is : {this.state.userName}</div>
                 </header>
             </div>
         );
@@ -82,7 +85,7 @@ export default class welcomePage extends Component {
 
 /*
 * <img src={logo} className="App-logo" alt="logo" />
-*
+*<Button text={this.state.text} onClick={this.handleClick}/>
 * <PlayButton className="home-button" text={this.state.text} onClick={this.handleClick}/>
 * <SelectorQuestionType questionType={this.state.questionType} onQuestionTypeChange={this.handleQuestionTypeChange}/>
 *
