@@ -5,8 +5,11 @@ import PlayButton from "./PlayButton";
 import Selector_QuestionType from "./Selector_QuestionType";
 import Selector_Category from "./Selector_Category";
 import Selector_Difficulty from "./Selector_Difficulty";
+
 import Button from '@material-ui/core/Button';
+
 import TextField from '@material-ui/core/TextField';
+import Selector from "./Selector";
 
 export default class welcomePage extends Component {
     constructor(props) {
@@ -45,14 +48,17 @@ export default class welcomePage extends Component {
 
     handleClick = () => {
         this.setState({isLoading: true});
-        fetch(`http://127.0.0.1:5000/question_generator?amount=1&category=${this.state.category}
+        fetch(`/question_generator?amount=1&category=${this.state.category}
         &difficulty=${this.state.difficulty}&type=${this.state.questionType}`)
             .then(res => res.json())
             .then(
                 (result) => {
                     this.setState({
                         isLoading: false,
-                        questionList: result.items
+                        questionList: result
+                    }).catch(err => {
+                        // Do something for an error here
+                        console.log("Error Reading data " + err);
                     });
         });
     };
@@ -66,17 +72,21 @@ export default class welcomePage extends Component {
                     <p style={{color: 'black'}}>
                         Welcome to my TRIVIA web site!
                     </p>
-                    <TextField id="standard-basic" label="ENTER YOUR NAME"
+                    <TextField className="home-text" id="standard-basic" label="ENTER YOUR NAME"
                                onChange={this.handleTextChange}
                     />
 
-                    <Selector_Category className="home-selector" style={{fontFamily: "cursive"}} category={this.state.category} onCategoryChange={this.handleCategoryChange}/>
-                    <Selector_Difficulty className="home-selector" difficulty={this.state.difficulty} onDifficultyChange={this.handleDifficultyChange}/>
-                    <Selector_QuestionType className="home-selector" questionType={this.state.questionType} onQuestionTypeChange={this.handleQuestionTypeChange}/>
-                    <Button text={this.state.text} onClick={this.handleClick}/>
+                    <Selector_Category className="home-selector" style={{fontFamily: 'cursive'}}
+                                       category={this.state.category} onCategoryChange={this.handleCategoryChange}/>
+                    <Selector_Difficulty className="home-selector" difficulty={this.state.difficulty}
+                                         onDifficultyChange={this.handleDifficultyChange}/>
 
-                    <div>User name is : {this.state.userName}</div>
-                    <div>User name is : {this.state.userName}</div>
+                    <Selector_QuestionType className="home-selector" questionType={this.state.questionType}
+                                           onQuestionTypeChange={this.handleQuestionTypeChange}/>
+                    <Button onClick={this.handleClick}>
+                        {this.state.text}
+                    </Button>
+
                 </header>
             </div>
         );
@@ -84,6 +94,9 @@ export default class welcomePage extends Component {
 }
 
 /*
+<Selector onDifficultyChange={this.handleDifficultyChange}/>
+
+
 * <img src={logo} className="App-logo" alt="logo" />
 *<Button text={this.state.text} onClick={this.handleClick}/>
 * <PlayButton className="home-button" text={this.state.text} onClick={this.handleClick}/>
