@@ -84,8 +84,9 @@ def question_parser(response_from_post_request):
 
 def post_request_api(api_url):
     response_to_read = requests.post(url=api_url)
-    response = json.loads(response_to_read.text)
-    return response
+    data = json.dumps(response_to_read)
+    # response = json.loads(response_to_read.text)
+    return data
 
 
 def response_parser_to_amount(response_from_post_request, difficulty):
@@ -111,6 +112,7 @@ def question_generator():
     :rtype: string
     """
 
+    
     difficulty = request.args.get('difficulty')
     question_type = request.args.get('type')
     category = request.args.get('category')
@@ -121,7 +123,7 @@ def question_generator():
     response_from_post_request = post_request_api(api_url)
     question = question_parser(response_from_post_request)
 
-    return response_from_post_request
+    return question
 
 
 if __name__ == '__main__':
@@ -130,7 +132,7 @@ if __name__ == '__main__':
 # https://opentdb.com/api.php?amount=10&category=9
 # https://opentdb.com/api.php?amount=1&category=25&difficulty=easy&type=multiple
 # http://127.0.0.1:5000/question_generator?amount=1&category=25&difficulty=easy&type=multiple
-# /question_generator?category=25&difficulty=easy&type=multiple
+# /question_generator?category=22&difficulty=easy&type=multiple
 
 
 """
