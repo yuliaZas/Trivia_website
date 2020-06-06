@@ -84,9 +84,9 @@ def question_parser(response_from_post_request):
 
 def post_request_api(api_url):
     response_to_read = requests.post(url=api_url)
-    data = json.dumps(response_to_read)
-    # response = json.loads(response_to_read.text)
-    return data
+    # data = json.dumps(response_to_read)
+    response = json.loads(response_to_read.text)
+    return response
 
 
 def response_parser_to_amount(response_from_post_request, difficulty):
@@ -112,7 +112,7 @@ def question_generator():
     :rtype: string
     """
 
-    
+
     difficulty = request.args.get('difficulty')
     question_type = request.args.get('type')
     category = request.args.get('category')
