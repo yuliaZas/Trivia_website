@@ -7,6 +7,8 @@ import QuestionPage from "./component/QuestionPage";
 export default class App extends Component {
   constructor(props) {
     super(props);
+    const index = 0;
+
     this.state = {
       currentPage: "welcomePage",
       questions: []
@@ -17,12 +19,14 @@ export default class App extends Component {
     this.setState({currentPage: newPage});
   }
 
-  handleQuestionFEtch = (questionArr) => {
+  handleQuestionFetch = (questionArr) => {
     this.setState({questions: questionArr})
   }
 
+
+
   render() {
-    if (this.state.questions.length < 1) return <WelcomePage onQuestionFetch={this.handleQuestionFEtch}/>
+    if (this.state.questions.length < 1) return <WelcomePage onQuestionFetch={this.handleQuestionFetch}/>
     else return <QuestionPage questions={this.state.questions}/>
   }
 }
