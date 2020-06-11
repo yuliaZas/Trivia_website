@@ -48,18 +48,19 @@ export default class welcomePage extends Component {
 
     handleClick = () => {
         this.setState({isLoading: true});
-        fetch(`/question_generator?amount=1&category=${this.state.category}
-        &difficulty=${this.state.difficulty}&type=${this.state.questionType}`)
+        fetch(`/question_generator?amount=1&category=${this.state.category}`+
+        `&difficulty=${this.state.difficulty}&type=${this.state.questionType}`)
             .then(res => res.json())
             .then(
                 (result) => {
+                    // result.response_code : check the response status
+                    this.props.onQuestionFetch(result.results)
                     this.setState({
                         isLoading: false,
-                        questionList: result
-                    }).catch(err => {
-                        // Do something for an error here
-                        console.log("Error Reading data " + err);
-                    });
+                    })
+        }).catch(err => {
+            // Do something for an error here
+            console.log("Error Reading data " + err);
         });
     };
 

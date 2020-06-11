@@ -8,7 +8,8 @@ export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentPage: "welcomePage"
+      currentPage: "welcomePage",
+      questions: []
     }
   }
 
@@ -16,8 +17,12 @@ export default class App extends Component {
     this.setState({currentPage: newPage});
   }
 
+  handleQuestionFEtch = (questionArr) => {
+    this.setState({questions: questionArr})
+  }
+
   render() {
-    if (this.state.currentPage === "welcomePage") return <WelcomePage onPageChange={this.handlePageChange}/>
-    else if(this.state.currentPage === "questionPage") return <QuestionPage onPageChange={this.handlePageChange}/>
+    if (this.state.questions.length < 1) return <WelcomePage onQuestionFetch={this.handleQuestionFEtch}/>
+    else return <QuestionPage questions={this.state.questions}/>
   }
 }
