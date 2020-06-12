@@ -28,6 +28,7 @@ export default class welcomePage extends Component {
 
     handleTextChange = (e) => {
         this.setState({userName: e.target.value });
+        this.props.onUserName(this.state.userName);
     };
 
     handleFetchApiCategoryChange = (items) => {
@@ -48,7 +49,7 @@ export default class welcomePage extends Component {
 
     handleClick = () => {
         this.setState({isLoading: true});
-        fetch(`/question_generator?amount=1&category=${this.state.category}`+
+        fetch(`/question_generator?category=${this.state.category}`+
         `&difficulty=${this.state.difficulty}&type=${this.state.questionType}`)
             .then(res => res.json())
             .then(

@@ -11,7 +11,8 @@ export default class App extends Component {
 
     this.state = {
       currentPage: "welcomePage",
-      questions: []
+      questions: [],
+      userName: ""
     }
   }
 
@@ -23,10 +24,12 @@ export default class App extends Component {
     this.setState({questions: questionArr})
   }
 
-
+  handleUserName = (userName) => {
+    this.setState({userName: userName})
+  }
 
   render() {
-    if (this.state.questions.length < 1) return <WelcomePage onQuestionFetch={this.handleQuestionFetch}/>
-    else return <QuestionPage questions={this.state.questions}/>
+    if (this.state.questions.length < 1) return <WelcomePage onQuestionFetch={this.handleQuestionFetch} onUserName={this.handleUserName}/>
+    else return <QuestionPage questions={this.state.questions} userName={this.state.userName}/>
   }
 }
