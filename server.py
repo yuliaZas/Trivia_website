@@ -2,16 +2,40 @@ from flask import Flask, render_template, request
 
 import requests
 import json
+import random
 
 app = Flask(__name__)
 
 MAX_QUESTION_AMOUNT = 50
+QUESTION_AMOUNT = 1
+CORRECT_ANSWER = ''
 
 
-# TODO: main window
-@app.route('/')
-def home():
-    return 'Hello, World!'
+def response_code_handling(response_code):
+    if response_code is 1:
+        print("No Results Could not return results. The API doesn't have enough questions for your query.")
+    elif response_code is 2:
+        print("Invalid Parameter Contains an invalid parameter. Arguments passed in aren't valid.")
+    elif response_code is 3:
+        print("Token Not Found Session Token does not exist.")
+    elif response_code is 4:
+        print("Token Empty Session Token has returned all possible questions for the specified query."
+              "Resetting the Token is necessary.")
+
+
+def response_parser_to_amount(response_from_post_request, difficulty):
+    total_difficulty_question_count = 'total_' + difficulty + '_question_count'
+    if response_from_post_request['category_question_count'][total_difficulty_question_count] <= MAX_QUESTION_AMOUNT:
+        amount = response_from_post_request['category_question_count'][total_difficulty_question_count]
+    else:
+        amount = MAX_QUESTION_AMOUNT
+    return amount
+
+
+def categoryQuestionCount(category, difficulty):
+    response_from_post_request = post_request_api('https://opentdb.com/api_count.php?category=' + str(category))
+    questionAmount = response_parser_to_amount(response_from_post_request, difficulty)
+    return questionAmount
 
 
 def api_php_request(number_questions, category, difficulty, question_type):
@@ -45,87 +69,73 @@ def api_php_request(number_questions, category, difficulty, question_type):
     return api_url
 
 
-def response_code_handling(response_code):
-    if response_code is 1:
-        print("No Results Could not return results. The API doesn't have enough questions for your query.")
-    elif response_code is 2:
-        print("Invalid Parameter Contains an invalid parameter. Arguments passed in aren't valid.")
-    elif response_code is 3:
-        print("Token Not Found Session Token does not exist.")
-    elif response_code is 4:
-        print("Token Empty Session Token has returned all possible questions for the specified query."
-              "Resetting the Token is necessary.")
-
-
-def question_parser(response_from_post_request):
-    """
-    The function gets the dictionary which "api_php_request" returned and parse it to question and answers.
-    :return: The question
-    :rtype: string
-    """
-    if response_from_post_request['response_code'] is 0:
-        question = response_from_post_request['results'][0]['question']
-        if response_from_post_request['results'][0]['type'] == 'multiple':
-            correct_answer = response_from_post_request['results'][0]['correct_answer']
-            incorrect_answers_list = response_from_post_request['results'][0]['incorrect_answers']
-            incorrect_answers = ''
-            for answer in incorrect_answers_list:
-                incorrect_answers += answer + ' ; '
-            correct_and_incorrect_answer = correct_answer + '\\' + incorrect_answers
-        else:
-            correct_answer = response_from_post_request['results'][0]['correct_answer']
-            incorrect_answer = response_from_post_request['results'][0]['incorrect_answers'][0]
-            correct_and_incorrect_answer = correct_answer + '\\' + incorrect_answer
-    else:
-        response_code_handling(response_from_post_request['response_code'])
-
-    return question + '\\' + correct_and_incorrect_answer
-
-
 def post_request_api(api_url):
     response_to_read = requests.post(url=api_url)
-    # data = json.dumps(response_to_read)
     response = json.loads(response_to_read.text)
     return response
 
 
-def response_parser_to_amount(response_from_post_request, difficulty):
-    total_difficulty_question_count = 'total_' + difficulty + '_question_count'
-    if response_from_post_request['category_question_count'][total_difficulty_question_count] <= MAX_QUESTION_AMOUNT:
-        amount = response_from_post_request['category_question_count'][total_difficulty_question_count]
+def response_parser(response_from_post_request):
+    """
+    The function gets the json which "api_php_request" returned and parse it to question and answers.
+    :return: The question
+    :rtype: string
+    """
+    data = {}
+    if response_from_post_request['response_code'] is 0:
+        data['question'] = response_from_post_request['results'][0]['question']
+        # question = response_from_post_request['results'][0]['question']
+        global CORRECT_ANSWER
+        CORRECT_ANSWER = response_from_post_request['results'][0]['correct_answer']
+
+        answers_list = response_from_post_request['results'][0]['incorrect_answers']
+        answers_list.append(response_from_post_request['results'][0]['correct_answer'])
+        random.shuffle(answers_list)
+        data['answers'] = answers_list
+
+        data_to_string = json.dumps(data)
+        response = json.loads(data_to_string)
     else:
-        amount = MAX_QUESTION_AMOUNT
-    return amount
+        response_code_handling(response_from_post_request['response_code'])
+
+    return response
 
 
-def categoryQuestionCount(category, difficulty):
-    response_from_post_request = post_request_api('https://opentdb.com/api_count.php?category=' + str(category))
-    questionAmount = response_parser_to_amount(response_from_post_request, difficulty)
-    return questionAmount
+@app.route('/correct_answer_checker', methods=['GET'])
+def correct_answer_checker():
+    answer_chosen_by_the_client = request.args.get('answer')
+    if answer_chosen_by_the_client == CORRECT_ANSWER:
+        return 'correct'
+    else:
+        return 'wrong'
 
 
 @app.route('/question_generator', methods=['GET'])
 def question_generator():
     """
     This is the GET request from the player.
-    :return: The relevant question
-    :rtype: string
+    :return: question & answers to the client
+    :rtype: json
     """
-
 
     difficulty = request.args.get('difficulty')
     question_type = request.args.get('type')
     category = request.args.get('category')
-
+    """
     # define question amount by category and difficulty the player has chosen
     amount = categoryQuestionCount(category, difficulty)
+    """
 
-
-    api_url = api_php_request(amount, category, difficulty, question_type)
+    api_url = api_php_request(QUESTION_AMOUNT, category, difficulty, question_type)
     response_from_post_request = post_request_api(api_url)
-    question = question_parser(response_from_post_request)
+    response = response_parser(response_from_post_request)
 
-    return response_from_post_request
+    return response
+
+
+@app.route('/')
+def home():
+    return 'Hello All!'
 
 
 if __name__ == '__main__':
