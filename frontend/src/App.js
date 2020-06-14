@@ -12,16 +12,20 @@ export default class App extends Component {
     this.state = {
       currentPage: "welcomePage",
       questions: [],
-      userName: ""
+      userName: "",
+      playFlag: true
     }
   }
 
-  handlePageChange = (newPage) => {
-    this.setState({currentPage: newPage});
+  handlePlayAgain = () => {
+    this.setState({playFlag: true});
   }
 
   handleQuestionFetch = (questionArr) => {
-    this.setState({questions: questionArr})
+    this.setState({
+      questions: questionArr,
+      playFlag: false
+    })
   }
 
   handleUserName = (userName) => {
@@ -29,7 +33,7 @@ export default class App extends Component {
   }
 
   render() {
-    if (this.state.questions.length < 1) return <WelcomePage onQuestionFetch={this.handleQuestionFetch} onUserName={this.handleUserName}/>
-    else return <QuestionPage questions={this.state.questions} userName={this.state.userName}/>
+    if (this.state.playFlag) return <WelcomePage onQuestionFetch={this.handleQuestionFetch} onUserName={this.handleUserName}/>
+    else return <QuestionPage questions={this.state.questions} userName={this.state.userName} onPlayAgain={this.handlePlayAgain}/>
   }
 }

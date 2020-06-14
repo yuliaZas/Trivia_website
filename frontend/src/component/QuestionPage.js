@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import './QuestionPage.css';
+//import { Data } from "./Data";
 
 import { makeStyles } from '@material-ui/core/styles';
 import Radio from '@material-ui/core/Radio';
@@ -17,18 +18,176 @@ export default class QuestionPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            value: "",
-            error: false,
-            helperText: "Choose wisely",
-            index: 0,
-            text: "Play!",
-            userName: this.props.userName,
-            flag: true,
-            questionList: this.props.questions,
-            question: [],
-            test: ""
+            userName: props.userName,
+            data: props.questions,
+            question: props.questions.question,
+            options: props.questions.answers,
+            correctAnswer: "",
+            questionAmount: 5,
+            currentQuestion: 1,
+            myAnswer: null,
+            clientAnswerChecked: '',
+            score: 0,
+            disabled: true,
+            isEnd: false
         }
     }
+/* old code
+    componentDidMount() {
+        //this.loadQuizData();
+        this.setState({userName: this.props.userName});
+        this.setState({questionList:  this.props.questions});
+        console.log(this.state.questionList[this.state.currentQuestion].question);
+        console.log(this.state.userName);
+        this.setState({question: this.state.questionList[this.state.currentQuestion].question});
+        this.setState({options: this.state.questionList[this.state.currentQuestion].incorrect_answers});
+        this.setState({options: [...this.state.options, this.state.questionList[this.state.currentQuestion].correct_answer]});
+        console.log(this.state.options);
+        this.setState({correctAnswer: this.state.questionList[this.state.currentQuestion].correct_answer});
+    };
+    
+    loadQuizData = () => {
+        this.setState({userName: this.props.userName});
+        this.setState({questionList:  this.props.questions});
+        this.setState({question: this.state.questionList[this.state.currentQuestion].question});
+        this.setState({options: this.state.questionList[this.state.currentQuestion].incorrect_answers});
+        this.setState({options: [...this.state.options, this.state.questionList[this.state.currentQuestion].correct_answer]});
+        console.log(this.state.options);
+        this.setState({correctAnswer: this.state.questionList[this.state.currentQuestion].correct_answer});
+    };
+
+        componentDidUpdate(prevProps, prevState) {
+        if (this.state.currentQuestion !== prevState.currentQuestion) {
+            this.setState(() => {
+                return {
+                    disabled: true,
+                    questions: this.state.questionList[this.state.currentQuestion].question,
+                    options: this.state.questionList[this.state.currentQuestion].options,
+                    answer: this.state.questionList[this.state.currentQuestion].answer
+                };
+            });
+        }
+    }
+ */
+    nextQuestionHandler = () => {
+        fetch(`/next_question`)
+            .then(res => res.json())
+            .then(
+                (result) => {
+                    this.setState({
+                        data: result,
+                        question: result.question,
+                        options: result.answers
+                    })
+                }).catch(err => {
+            // Do something for an error here
+            console.log("Error Reading data " + err);
+        });
+
+        this.setState({
+            currentQuestion: this.state.currentQuestion + 1
+        });
+    };
+
+
+    checkAnswer = answer => {
+        this.setState({ myAnswer: answer, disabled: false });
+        fetch(`/correct_answer_checker?answer=${this.state.myAnswer}`)
+            .then(res => res.text())
+            .then(
+                (result) => {
+                    this.setState({
+                        clientAnswerChecked: result
+                    })
+                }).catch(err => {
+            // Do something for an error here
+            console.log("Error Reading data " + err);
+        });
+        if (this.state.clientAnswerChecked === 'correct') {
+            this.setState({
+                score: this.state.score + 1
+            });
+        }
+    };
+    finishHandler = () => {
+        if (this.state.currentQuestion === this.state.questionAmount) {
+            this.setState({
+                isEnd: true
+            });
+        }
+    };
+
+    playAgainHandler = () => {
+        this.props.onPlayAgain()
+    }
+
+
+    render() {
+        const { options, myAnswer, currentQuestion,questionAmount, isEnd } = this.state;
+
+        if (isEnd) {
+            return (
+                <div className="result">
+                    <h3>Game Over {this.state.userName}, your Final score is {this.state.score} points </h3>
+                    <p>
+                        <button className="ui inverted button" onClick={this.playAgainHandler}>
+                            play again!
+                        </button>
+                    </p>
+                </div>
+            );
+        } else {
+            return (
+                <div className="App">
+                    <h1>Good luck {this.state.userName}!</h1>
+                    <h1>{this.state.question} </h1>
+                    <span>{`Questions ${currentQuestion}  out of ${questionAmount} 
+                    remaining `}</span>
+                    {options.map((option,i) => (
+                        <p
+                            key={i}
+                            className={`ui floating message options
+                            ${myAnswer === option ? "selected" : null}
+                            `}
+                            onClick={() => this.checkAnswer(option)}
+                        >
+                            {option}
+                        </p>
+                    ))}
+                    {currentQuestion < questionAmount && (
+                        <button
+                            className="ui inverted button"
+                            disabled={this.state.disabled}
+                            onClick={this.nextQuestionHandler}
+                        >
+                            Next
+                        </button>
+                    )}
+                    {/* //adding a finish button */}
+                    {currentQuestion === questionAmount && (
+                        <button className="ui inverted button" onClick={this.finishHandler}>
+                            Finish
+                        </button>
+                    )}
+                </div>
+            );
+        };
+    };
+
+}
+
+
+/*adding to list:
+const handleSubmit = event => {
+    if (value) {
+      setList(list.concat(value));
+    }
+
+    setValue('');
+
+    event.preventDefault();
+  };
+
 
     useStyles = makeStyles((theme) => ({
         formControl: {
@@ -39,18 +198,7 @@ export default class QuestionPage extends Component {
         },
     }));
 
-    handleQuestion = () => {
-        this.state.questionList.map((item, i) => {
-            this.setState({question: item});
-        });
-    };
-
-
-    handleFlag = () => {
-        this.setState({flag: false});
-    };
-
-    handleRadioChange = (event) => {
+        handleRadioChange = (event) => {
         this.setState({value: event.target.value});
         this.setState({helperText: " "});
         this.setState({error: false});
@@ -70,25 +218,6 @@ export default class QuestionPage extends Component {
             this.setState({error: false});
         }
     };
-
-    render() {
-        return (
-            <div className="page">
-                <header className="header">
-
-                    <div className="DottedBox" onBeforeInput={this.handleQuestion}>
-                        <p className="DottedBox_content">
-                            Hello {this.state.userName}
-                        </p>
-                    </div>
-                    <div>
-
-                    </div>
-                    <div>
-                        {
-                            this.state.questionList.map((item, i) => {
-                                return (
-                                    <div key={i}>
                                         <form onSubmit={this.handleSubmit}>
                                             <FormControl component="fieldset" error={this.state.error} className={this.useStyles.formControl}>
                                                 <FormLabel component="legend" style={{fontWeight: 'bold'}}>{item.question}</FormLabel>
@@ -108,22 +237,35 @@ export default class QuestionPage extends Component {
                                                 </Button>
                                             </FormControl>
                                         </form>
-                                    </div>
-                                );
-                            })
-                        }
+
+
+
+<ul>
+                        {this.state.questionList.map(s => (<li>{s.question}</li>))}
+                    </ul>
+style={{color: 'pink', background: 'gray'}}
+<Selector onDifficultyChange={this.handleDifficultyChange}/>
+
+
+render:
+<div className="page">
+                <header className="header">
+
+                    <div className="DottedBox" onBeforeInput={this.handleQuestion}>
+                        <p className="DottedBox_content">
+                            Hello {this.state.userName}
+                        </p>
                     </div>
-                </header>
-            </div>
-        );
-    }
-}
+                    <div>
 
-
-/*
-
+                    </div>
+                    <div>
+                        {
+                            this.state.questionList.map((item, i) => {
+                                return (
+                                    <div key={i}>
                                         <div>
-                                                <a>Question: {item.question}</a>
+                                            <a>Question: {item.question}</a>
                                             <div>
                                                 <div>
                                                     <a>Correct Answer: {item.correct_answer}</a>
@@ -132,13 +274,14 @@ export default class QuestionPage extends Component {
                                                 {item.incorrect_answers.map(s => (<li>{s}</li>))}
                                             </div>
                                         </div>
+                                    </div>
+                                );
+                            })
+                        }
+                    </div>
+                </header>
+            </div>
 
-
-<ul>
-                        {this.state.questionList.map(s => (<li>{s.question}</li>))}
-                    </ul>
-style={{color: 'pink', background: 'gray'}}
-<Selector onDifficultyChange={this.handleDifficultyChange}/>
 
 
 * <img src={logo} className="App-logo" alt="logo" />

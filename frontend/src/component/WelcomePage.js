@@ -55,7 +55,7 @@ export default class welcomePage extends Component {
             .then(
                 (result) => {
                     // result.response_code : check the response status
-                    this.props.onQuestionFetch(result.results)
+                    this.props.onQuestionFetch(result)
                     this.setState({
                         isLoading: false,
                     })
