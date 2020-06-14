@@ -9,6 +9,10 @@ app = Flask(__name__)
 MAX_QUESTION_AMOUNT = 50
 QUESTION_AMOUNT = 1
 CORRECT_ANSWER = ''
+DIFFICULTY = ''
+QUESTION_TYPE = ''
+CATEGORY = None
+USER_NAME = ''
 
 
 def response_code_handling(response_code):
@@ -101,32 +105,8 @@ def response_parser(response_from_post_request):
     return response
 
 
-@app.route('/correct_answer_checker', methods=['GET'])
-def correct_answer_checker():
-    answer_chosen_by_the_client = request.args.get('answer')
-    if answer_chosen_by_the_client == CORRECT_ANSWER:
-        return 'correct'
-    else:
-        return 'wrong'
-
-
-@app.route('/question_generator', methods=['GET'])
-def question_generator():
-    """
-    This is the GET request from the player.
-    :return: question & answers to the client
-    :rtype: json
-    """
-
-    difficulty = request.args.get('difficulty')
-    question_type = request.args.get('type')
-    category = request.args.get('category')
-    """
-    # define question amount by category and difficulty the player has chosen
-    amount = categoryQuestionCount(category, difficulty)
-    """
-
-    api_url = api_php_request(QUESTION_AMOUNT, category, difficulty, question_type)
+def response_to_client(question_amount, category, difficulty, question_type):
+    api_url = api_php_request(question_amount, category, difficulty, question_type)
     response_from_post_request = post_request_api(api_url)
     response = response_parser(response_from_post_request)
 
@@ -138,13 +118,54 @@ def home():
     return 'Hello All!'
 
 
+@app.route('/question_generator', methods=['GET'])
+def question_generator():
+    """
+    This is the GET request from the player.
+    :return: question & answers to the client
+    :rtype: json
+    """
+    global DIFFICULTY, QUESTION_TYPE, CATEGORY
+    # USER_NAME = request.args.get('user')
+    DIFFICULTY = request.args.get('difficulty')
+    QUESTION_TYPE = request.args.get('type')
+    CATEGORY = request.args.get('category')
+    """
+    # define question amount by category and difficulty the player has chosen
+    amount = categoryQuestionCount(category, difficulty)
+    """
+    """
+    api_url = api_php_request(QUESTION_AMOUNT, CATEGORY, DIFFICULTY, QUESTION_TYPE)
+    response_from_post_request = post_request_api(api_url)
+    response = response_parser(response_from_post_request)
+    """
+    response = response_to_client(QUESTION_AMOUNT, CATEGORY, DIFFICULTY, QUESTION_TYPE)
+
+    return response
+
+
+@app.route('/correct_answer_checker', methods=['GET'])
+def correct_answer_checker():
+    answer_chosen_by_the_client = request.args.get('answer')
+    if answer_chosen_by_the_client == CORRECT_ANSWER:
+        return 'correct'
+    else:
+        return 'wrong'
+
+
+@app.route('/next_question', methods=['GET'])
+def next_question():
+    response = response_to_client(QUESTION_AMOUNT, CATEGORY, DIFFICULTY, QUESTION_TYPE)
+    return response
+
+
 if __name__ == '__main__':
     app.run()
 
 # https://opentdb.com/api.php?amount=10&category=9
 # https://opentdb.com/api.php?amount=1&category=25&difficulty=easy&type=multiple
 # http://127.0.0.1:5000/question_generator?amount=1&category=25&difficulty=easy&type=multiple
-# /question_generator?amount=1&category=22&difficulty=easy&type=multiple
+# /question_generator?category=22&difficulty=easy&type=multiple
 
 
 """
