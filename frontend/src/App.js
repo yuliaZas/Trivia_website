@@ -21,19 +21,44 @@ export default class App extends Component {
     this.setState({playFlag: true});
   }
 
-  handleQuestionFetch = (questionArr) => {
-    this.setState({
-      questions: questionArr,
-      playFlag: false
-    })
-  }
+
+  // handleQuestionFetch = (questionArr) => {
+  //   this.setState({
+  //     questions: questionArr,
+  //     playFlag: false
+  //   })
+  // }
 
   handleUserName = (userName) => {
     this.setState({userName: userName})
   }
 
+  handleFetch = (category, difficulty, questionType, userName) => {
+    this.setState({userName: userName});
+    fetch(`/question_generator?category=${category}`+
+        `&difficulty=${difficulty}&type=${questionType}`)
+        .then(res => res.json())
+        .then(
+            (result) => {
+              // result.response_code : check the response status
+              this.setState({
+                questions: result,
+                playFlag: false
+              })
+            }).catch(err => {
+      // Do something for an error here
+      console.log("Error Reading data " + err);
+    });
+  };
+
   render() {
-    if (this.state.playFlag) return <WelcomePage onQuestionFetch={this.handleQuestionFetch} onUserName={this.handleUserName}/>
+    if (this.state.playFlag){
+      return(
+          <body>
+            <WelcomePage onQuestionFetch={this.handleFetch} onUserName={this.handleUserName}/>
+          </body>
+      );
+    }
     else return <QuestionPage questions={this.state.questions} userName={this.state.userName} onPlayAgain={this.handlePlayAgain}/>
   }
 }

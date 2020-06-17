@@ -1,8 +1,62 @@
 .App {
-  text-align: center;
   font-family: sans-serif;
   text-align: center;
   color: #f1f2f6;
+}
+
+body {
+  font-size: 1.2rem;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+  Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  background: #bdc3c7; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+          to right,
+          #2c3e50,
+          #bdc3c7
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #2c3e50, #bdc3c7);
+  text-align: center;
+}
+
+.home-page {
+  text-align: center;
+  font-family: fantasy;
+}
+
+.home-img {
+  margin: 20px;
+  width: 300px;
+  height: auto;
+}
+
+.result {
+  margin-top: 20px;
+}
+
+.options {
+  cursor: pointer;
+  border: 2px solid black;
+  padding: 10px;
+}
+
+.selected {
+  background: linear-gradient(to right, #74ebd5, #acb6e5) !important;
+}
+
+ul {
+  list-style-type: none;
+}
+
+
+/*
+
+.App {
+  text-align: center;
+  font-family: sans-serif;
+font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+                                                            Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+color: #f1f2f6;
+
 }
 
 .App-logo {
@@ -17,8 +71,15 @@
 }
 
 .App-header {
-  /*background-color: #282c34;*/
+  background-color: #282c34;
   background-color: #F5F5F5;
+
+  background: -webkit-linear-gradient(
+          to right,
+          #2c3e50,
+          #bdc3c7
+  ); ///// Chrome 10-25, Safari 5.1-6
+  background: linear-gradient(to right, #2c3e50, #bdc3c7);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -59,12 +120,12 @@ body {
   font-size: 1.2rem;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
   Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-  background: #bdc3c7; /* fallback for old browsers */
+  background: #bdc3c7; /////// fallback for old browsers
   background: -webkit-linear-gradient(
           to right,
           #2c3e50,
           #bdc3c7
-  ); /* Chrome 10-25, Safari 5.1-6 */
+  ); //////// Chrome 10-25, Safari 5.1-6
   background: linear-gradient(to right, #2c3e50, #bdc3c7);
 }
 
@@ -85,4 +146,4 @@ body {
 ul {
   list-style-type: none;
 }
-
+*/

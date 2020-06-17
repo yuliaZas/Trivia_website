@@ -1,9 +1,11 @@
+/*
+
 .page {
     text-align: center;
 }
 
 .header {
-    /*background-color: #282c34;*/
+    background-color: #282c34;
     background-color: #F5F5F5;
     min-height: 100vh;
     display: flex;
@@ -13,7 +15,8 @@
     font-size: calc(10px + 2vmin);
     color: black;
 }
-
+*/
+/*
 .img {
     margin: 40px;
     width: 430px;
@@ -33,3 +36,4 @@
     text-align: center;
     color: black;
 }
+*/

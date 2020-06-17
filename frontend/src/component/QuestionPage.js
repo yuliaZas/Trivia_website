@@ -19,13 +19,12 @@ export default class QuestionPage extends Component {
         super(props);
         this.state = {
             userName: props.userName,
-            data: props.questions,
             question: props.questions.question,
             options: props.questions.answers,
             correctAnswer: "",
             questionAmount: 5,
             currentQuestion: 1,
-            myAnswer: null,
+            myAnswer: "",
             clientAnswerChecked: '',
             score: 0,
             disabled: true,
@@ -75,9 +74,12 @@ export default class QuestionPage extends Component {
             .then(
                 (result) => {
                     this.setState({
-                        data: result,
                         question: result.question,
-                        options: result.answers
+                        options: result.answers,
+                        correctAnswer: "",
+                        disabled: true,
+                        myAnswer:""
+
                     })
                 }).catch(err => {
             // Do something for an error here
@@ -97,7 +99,8 @@ export default class QuestionPage extends Component {
             .then(
                 (result) => {
                     this.setState({
-                        clientAnswerChecked: result
+                        clientAnswerChecked: result,
+                        disabled: false
                     })
                 }).catch(err => {
             // Do something for an error here
@@ -123,7 +126,7 @@ export default class QuestionPage extends Component {
 
 
     render() {
-        const { options, myAnswer, currentQuestion,questionAmount, isEnd } = this.state;
+        const { options, myAnswer, currentQuestion,questionAmount, isEnd} = this.state;
 
         if (isEnd) {
             return (
@@ -139,7 +142,7 @@ export default class QuestionPage extends Component {
         } else {
             return (
                 <div className="App">
-                    <h1>Good luck {this.state.userName}!</h1>
+                    <h1>Good luck {this.state.userName}! </h1>
                     <h1>{this.state.question} </h1>
                     <span>{`Questions ${currentQuestion}  out of ${questionAmount} 
                     remaining `}</span>

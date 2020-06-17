@@ -1,15 +1,13 @@
 import React, {Component} from 'react';
 import './WelcomePage.css';
 
-import PlayButton from "./PlayButton";
 import Selector_QuestionType from "./Selector_QuestionType";
 import Selector_Category from "./Selector_Category";
 import Selector_Difficulty from "./Selector_Difficulty";
 
 import Button from '@material-ui/core/Button';
-
 import TextField from '@material-ui/core/TextField';
-import Selector from "./Selector";
+
 
 export default class welcomePage extends Component {
     constructor(props) {
@@ -29,10 +27,6 @@ export default class welcomePage extends Component {
     handleTextChange = (e) => {
         this.setState({userName: e.target.value });
         this.props.onUserName(this.state.userName);
-    };
-
-    handleFetchApiCategoryChange = (items) => {
-        this.setState({categoryList: items});
     };
 
     handleCategoryChange = (event) => {
@@ -70,7 +64,7 @@ export default class welcomePage extends Component {
             <div className="home-page">
                 <header className="home-header">
 
-                    <img className="home-img" src='./trivia.png' alt="logo-trivia"/>
+                    <img className="home-img" src='./logo2.png' alt="logo-trivia"/>
                     <p style={{color: 'black'}}>
                         Welcome to my TRIVIA web site!
                     </p>
@@ -85,7 +79,8 @@ export default class welcomePage extends Component {
 
                     <Selector_QuestionType className="home-selector" questionType={this.state.questionType}
                                            onQuestionTypeChange={this.handleQuestionTypeChange}/>
-                    <Button onClick={this.handleClick}>
+                    <Button onClick= { () => this.props.onQuestionFetch(this.state.category, this.state.difficulty,
+                        this.state.questionType, this.state.userName)}>
                         {this.state.text}
                     </Button>
 
