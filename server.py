@@ -3,6 +3,8 @@ from flask import Flask, render_template, request
 import requests
 import json
 import random
+import html
+
 
 app = Flask(__name__)
 
@@ -79,6 +81,11 @@ def post_request_api(api_url):
     return response
 
 
+def decode_answers(itemList):
+    for item in itemList:
+        html.unescape(item)
+
+
 def response_parser(response_from_post_request):
     """
     The function gets the json which "api_php_request" returned and parse it to question and answers.
@@ -87,13 +94,14 @@ def response_parser(response_from_post_request):
     """
     data = {}
     if response_from_post_request['response_code'] is 0:
-        data['question'] = response_from_post_request['results'][0]['question']
+        data['question'] = html.unescape(response_from_post_request['results'][0]['question'])
         # question = response_from_post_request['results'][0]['question']
         global CORRECT_ANSWER
-        CORRECT_ANSWER = response_from_post_request['results'][0]['correct_answer']
+        CORRECT_ANSWER = html.unescape(response_from_post_request['results'][0]['correct_answer'])
 
         answers_list = response_from_post_request['results'][0]['incorrect_answers']
         answers_list.append(response_from_post_request['results'][0]['correct_answer'])
+        decode_answers(answers_list)
         random.shuffle(answers_list)
         data['answers'] = answers_list
 
