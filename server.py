@@ -5,7 +5,6 @@ import json
 import random
 import html
 
-
 app = Flask(__name__)
 
 MAX_QUESTION_AMOUNT = 50
@@ -105,7 +104,7 @@ def response_parser(response_from_post_request):
         random.shuffle(answers_list)
         data['answers'] = answers_list
 
-        data_to_string = json.dumps(data)
+        data_to_string = json.dumps(data, ensure_ascii=False)
         response = json.loads(data_to_string)
     else:
         response_code_handling(response_from_post_request['response_code'])
@@ -164,6 +163,17 @@ def correct_answer_checker():
 @app.route('/next_question', methods=['GET'])
 def next_question():
     response = response_to_client(QUESTION_AMOUNT, CATEGORY, DIFFICULTY, QUESTION_TYPE)
+    return response
+
+
+@app.route('/html_decode_handler', methods=['GET'])
+def decode_handler():
+    dataTest = {'res': html.unescape("The &#039;Islets of Langerhans&#039; is found in which human organ?"),
+                'bla': html.unescape('&pound;682')}
+    data_to_string = json.dumps(dataTest, ensure_ascii=False)
+    response = json.loads(data_to_string)
+    # stringDict = '{"res": "The \'Islets of Langerhans\' is found in which human organ?", "bla": "£682"}'
+    print(response)
     return response
 
 
