@@ -96,8 +96,7 @@ def response_parser(response_from_post_request):
     data = {}
     if response_from_post_request['response_code'] is 0:
         data['question'] = html.unescape(response_from_post_request['results'][0]['question'])
-        # #data['question'] = html.unescape('The &#039;Islets of Langerhans&#039; is found in which human organ?')
-        # question = response_from_post_request['results'][0]['question']
+
         global CORRECT_ANSWER
         CORRECT_ANSWER = html.unescape(response_from_post_request['results'][0]['correct_answer'])
 
@@ -107,18 +106,6 @@ def response_parser(response_from_post_request):
         random.shuffle(decoded_answer_list)
         data['answers'] = decoded_answer_list
 
-        #####################################################################
-        # data['question'] = 'What is the Swedish word for \"window\"?'
-        # # list = [html.unescape("F&ouml;nster"), "Ruta", html.unescape("Sk&auml;rm"), html.unescape("H&aring;l")]
-        # list1 = ["F&ouml;nster", "Ruta", "Sk&auml;rm", "H&aring;l"]
-        # list2 = decode_answers(list1)
-        # data['answers'] = list2
-        #
-        # testData = json.dumps(data)
-        # response = json.loads(testData)
-        #####################################################################
-
-        # #data_to_string = json.dumps(data, ensure_ascii=False)
         data_to_string = json.dumps(data)
         response = json.loads(data_to_string)
     else:
@@ -148,19 +135,10 @@ def question_generator():
     :rtype: json
     """
     global DIFFICULTY, QUESTION_TYPE, CATEGORY
-    # USER_NAME = request.args.get('user')
     DIFFICULTY = request.args.get('difficulty')
     QUESTION_TYPE = request.args.get('type')
     CATEGORY = request.args.get('category')
-    """
-    # define question amount by category and difficulty the player has chosen
-    amount = categoryQuestionCount(category, difficulty)
-    """
-    """
-    api_url = api_php_request(QUESTION_AMOUNT, CATEGORY, DIFFICULTY, QUESTION_TYPE)
-    response_from_post_request = post_request_api(api_url)
-    response = response_parser(response_from_post_request)
-    """
+
     response = response_to_client(QUESTION_AMOUNT, CATEGORY, DIFFICULTY, QUESTION_TYPE)
 
     return response
@@ -178,17 +156,6 @@ def correct_answer_checker():
 @app.route('/next_question', methods=['GET'])
 def next_question():
     response = response_to_client(QUESTION_AMOUNT, CATEGORY, DIFFICULTY, QUESTION_TYPE)
-    return response
-
-
-@app.route('/html_decode_handler', methods=['GET'])
-def decode_handler():
-    dataTest = {'res': html.unescape("The &#039;Islets of Langerhans&#039; is found in which human organ?"),
-                'bla': html.unescape('&pound;682')}
-    data_to_string = json.dumps(dataTest, ensure_ascii=False)
-    response = json.loads(data_to_string)
-    # stringDict = '{"res": "The \'Islets of Langerhans\' is found in which human organ?", "bla": "£682"}'
-    print(response)
     return response
 
 
