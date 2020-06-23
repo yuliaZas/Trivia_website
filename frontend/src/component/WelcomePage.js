@@ -41,32 +41,18 @@ export default class welcomePage extends Component {
         this.setState({questionType: event});
     };
 
-    handleClick = () => {
-        this.setState({isLoading: true});
-        fetch(`/question_generator?category=${this.state.category}`+
-        `&difficulty=${this.state.difficulty}&type=${this.state.questionType}`)
-            .then(res => res.json())
-            .then(
-                (result) => {
-                    // result.response_code : check the response status
-                    this.props.onQuestionFetch(result)
-                    this.setState({
-                        isLoading: false,
-                    })
-        }).catch(err => {
-            // Do something for an error here
-            console.log("Error Reading data " + err);
-        });
-    };
-
     render() {
+        const myStyle = {
+            backgroundColor:"#cbe8f7",
+            fontFamily: "fantasy"
+        };
         return (
             <div className="home-page">
                 <header className="home-header">
 
                     <img className="home-img" src='./logo2.png' alt="logo-trivia"/>
                     <p style={{color: 'black'}}>
-                        Welcome to my TRIVIA web site!
+                        Welcome to my TRIVIA game!
                     </p>
                     <TextField className="home-text" id="standard-basic" label="ENTER YOUR NAME"
                                onChange={this.handleTextChange}
@@ -79,8 +65,8 @@ export default class welcomePage extends Component {
 
                     <Selector_QuestionType className="home-selector" questionType={this.state.questionType}
                                            onQuestionTypeChange={this.handleQuestionTypeChange}/>
-                    <Button onClick= { () => this.props.onQuestionFetch(this.state.category, this.state.difficulty,
-                        this.state.questionType, this.state.userName)}>
+                    <Button style={myStyle} onClick= { () => this.props.onQuestionFetch(this.state.category,
+                        this.state.difficulty, this.state.questionType, this.state.userName)}>
                         {this.state.text}
                     </Button>
 
@@ -89,30 +75,3 @@ export default class welcomePage extends Component {
         );
     }
 }
-
-/*
-<Selector onDifficultyChange={this.handleDifficultyChange}/>
-
-
-* <img src={logo} className="App-logo" alt="logo" />
-*<Button text={this.state.text} onClick={this.handleClick}/>
-* <PlayButton className="home-button" text={this.state.text} onClick={this.handleClick}/>
-* <SelectorQuestionType questionType={this.state.questionType} onQuestionTypeChange={this.handleQuestionTypeChange}/>
-*
-*           <div>TEST</div>
-            <div>Selected category is : {this.state.category}</div>
-            <div>Selected difficulty is : {this.state.difficulty}</div>
-            <div>Selected questionType is : {this.state.questionType}</div>
-            <div>User name is : {this.state.userName}</div>
-*
-*
-* the link: (can be used during questions)
-*  <a
-                className="App-link"
-                href="https://reactjs.org"
-                target="_blank"
-                rel="noopener noreferrer"
-            >
-              Learn React
-            </a>
-* */

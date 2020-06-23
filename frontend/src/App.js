@@ -21,14 +21,6 @@ export default class App extends Component {
     this.setState({playFlag: true});
   }
 
-
-  // handleQuestionFetch = (questionArr) => {
-  //   this.setState({
-  //     questions: questionArr,
-  //     playFlag: false
-  //   })
-  // }
-
   handleUserName = (userName) => {
     this.setState({userName: userName})
   }
@@ -59,6 +51,12 @@ export default class App extends Component {
           </body>
       );
     }
-    else return <QuestionPage questions={this.state.questions} userName={this.state.userName} onPlayAgain={this.handlePlayAgain}/>
-  }
-}
+    else {
+      return (
+          <body>
+            <QuestionPage questions={this.state.questions} userName={this.state.userName} onPlayAgain={this.handlePlayAgain}/>
+          </body>
+      );
+    }
+  };
+};
