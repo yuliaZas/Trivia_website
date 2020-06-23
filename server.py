@@ -81,8 +81,10 @@ def post_request_api(api_url):
 
 
 def decode_answers(itemList):
+    decoded_list = []
     for item in itemList:
-        html.unescape(item)
+        decoded_list.append(html.unescape(item))
+    return decoded_list
 
 
 def response_parser(response_from_post_request):
@@ -94,17 +96,30 @@ def response_parser(response_from_post_request):
     data = {}
     if response_from_post_request['response_code'] is 0:
         data['question'] = html.unescape(response_from_post_request['results'][0]['question'])
+        # #data['question'] = html.unescape('The &#039;Islets of Langerhans&#039; is found in which human organ?')
         # question = response_from_post_request['results'][0]['question']
         global CORRECT_ANSWER
         CORRECT_ANSWER = html.unescape(response_from_post_request['results'][0]['correct_answer'])
 
         answers_list = response_from_post_request['results'][0]['incorrect_answers']
         answers_list.append(response_from_post_request['results'][0]['correct_answer'])
-        decode_answers(answers_list)
-        random.shuffle(answers_list)
-        data['answers'] = answers_list
+        decoded_answer_list = decode_answers(answers_list)
+        random.shuffle(decoded_answer_list)
+        data['answers'] = decoded_answer_list
 
-        data_to_string = json.dumps(data, ensure_ascii=False)
+        #####################################################################
+        # data['question'] = 'What is the Swedish word for \"window\"?'
+        # # list = [html.unescape("F&ouml;nster"), "Ruta", html.unescape("Sk&auml;rm"), html.unescape("H&aring;l")]
+        # list1 = ["F&ouml;nster", "Ruta", "Sk&auml;rm", "H&aring;l"]
+        # list2 = decode_answers(list1)
+        # data['answers'] = list2
+        #
+        # testData = json.dumps(data)
+        # response = json.loads(testData)
+        #####################################################################
+
+        # #data_to_string = json.dumps(data, ensure_ascii=False)
+        data_to_string = json.dumps(data)
         response = json.loads(data_to_string)
     else:
         response_code_handling(response_from_post_request['response_code'])
@@ -184,11 +199,4 @@ if __name__ == '__main__':
 # https://opentdb.com/api.php?amount=1&category=25&difficulty=easy&type=multiple
 # http://127.0.0.1:5000/question_generator?amount=1&category=25&difficulty=easy&type=multiple
 # /question_generator?category=22&difficulty=easy&type=multiple
-
-
-"""
-difficulty: any, easy, medium, hard
-q_type(type): any, multi, tf
-number of questions(amount): right now one question
-category: make a map with key for the category and val with the number associated
-"""
+# /question_generator?category=17&difficulty=medium&type=multiple

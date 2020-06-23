@@ -25,10 +25,11 @@ export default class QuestionPage extends Component {
             questionAmount: 5,
             currentQuestion: 1,
             myAnswer: "",
-            clientAnswerChecked: '',
+            clientAnswerChecked: "",
             score: 0,
             disabled: true,
-            isEnd: false
+            isEnd: false,
+            showName: true
         }
     }
 /* old code
@@ -78,14 +79,14 @@ export default class QuestionPage extends Component {
                         options: result.answers,
                         correctAnswer: "",
                         disabled: true,
-                        myAnswer:""
-
+                        myAnswer:"",
+                        showName: false
                     })
                 }).catch(err => {
             // Do something for an error here
             console.log("Error Reading data " + err);
         });
-
+        this.scoreUpdate();
         this.setState({
             currentQuestion: this.state.currentQuestion + 1
         });
@@ -93,26 +94,24 @@ export default class QuestionPage extends Component {
 
 
     checkAnswer = answer => {
-        this.setState({ myAnswer: answer, disabled: false });
-        fetch(`/correct_answer_checker?answer=${this.state.myAnswer}`)
+        //this.setState({ myAnswer: answer, disabled: false });
+        fetch(`/correct_answer_checker?answer=${answer}`)
             .then(res => res.text())
             .then(
                 (result) => {
                     this.setState({
                         clientAnswerChecked: result,
+                        myAnswer: answer,
                         disabled: false
                     })
                 }).catch(err => {
             // Do something for an error here
             console.log("Error Reading data " + err);
         });
-        if (this.state.clientAnswerChecked === 'correct') {
-            this.setState({
-                score: this.state.score + 1
-            });
-        }
     };
+
     finishHandler = () => {
+        this.scoreUpdate();
         if (this.state.currentQuestion === this.state.questionAmount) {
             this.setState({
                 isEnd: true
@@ -124,9 +123,16 @@ export default class QuestionPage extends Component {
         this.props.onPlayAgain()
     }
 
+    scoreUpdate = () => {
+        if (this.state.clientAnswerChecked === 'correct') {
+            this.setState({
+                score: this.state.score + 1
+            });
+        }
+    }
 
     render() {
-        const { options, myAnswer, currentQuestion,questionAmount, isEnd} = this.state;
+        const { options, myAnswer, currentQuestion,questionAmount, isEnd, showName} = this.state;
 
         if (isEnd) {
             return (
@@ -142,7 +148,11 @@ export default class QuestionPage extends Component {
         } else {
             return (
                 <div className="App">
-                    <h1>Good luck {this.state.userName}! </h1>
+                    {/* //adding the user name only on the first question */}
+                    {showName && (
+                        <h1>Good luck {this.state.userName}! </h1>
+                    )}
+                    {/*<h1>Good luck {this.state.userName}! </h1>*/}
                     <h1>{this.state.question} </h1>
                     <span>{`Questions ${currentQuestion}  out of ${questionAmount} 
                     remaining `}</span>
