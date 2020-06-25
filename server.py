@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, request
 
 import requests
 import json
@@ -162,8 +162,3 @@ def next_question():
 if __name__ == '__main__':
     app.run()
 
-# https://opentdb.com/api.php?amount=10&category=9
-# https://opentdb.com/api.php?amount=1&category=25&difficulty=easy&type=multiple
-# http://127.0.0.1:5000/question_generator?amount=1&category=25&difficulty=easy&type=multiple
-# /question_generator?category=22&difficulty=easy&type=multiple
-# /question_generator?category=17&difficulty=medium&type=multiple
