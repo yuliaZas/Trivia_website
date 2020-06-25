@@ -44,7 +44,7 @@ export default class Selector_Category extends Component {
                             <option value={27}>Animals</option>
                             <option value={28}>Vehicles</option>
                             <option value={29}>Entertainment: Comics</option>
-                            <option value={30}>Science: Gadgets</option>
+                            {/*<option value={30}>Science: Gadgets</option> - less then 5 questions*/}
                             <option value={31}>Entertainment: Japanese Anime & Manga</option>
                             <option value={32}>Entertainment: Cartoon & Animations</option>
                         </select>

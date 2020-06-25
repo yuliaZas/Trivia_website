@@ -4,9 +4,11 @@ import './WelcomePage.css';
 import Selector_QuestionType from "./Selector_QuestionType";
 import Selector_Category from "./Selector_Category";
 import Selector_Difficulty from "./Selector_Difficulty";
+import Selector_QuestionTypeNoneBoolean from "./Selctor_QustionTypeNoneBoolean";
 
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+
 
 
 export default class welcomePage extends Component {
@@ -15,12 +17,16 @@ export default class welcomePage extends Component {
         this.state = {
             text: "Play!",
             userName: "",
-            categoryItems: [],
-            category: '',
+            category: "",
             difficulty: null,
             questionType: null,
             isLoading: false,
-            questionList: []
+            noneBoolean: false,
+            noneBooleanInCategory: false,
+            noBooleanAtAll: [13, 20, 25, 26, 29],
+            noBooleanEasy: [28, 32],
+            noBooleanMedium: [16],
+            noBooleanHard: [16, 19, 24, 27, 28, 32]
         }
     }
 
@@ -31,11 +37,36 @@ export default class welcomePage extends Component {
 
     handleCategoryChange = (event) => {
         this.setState({category: event});
+        let category = parseInt(event)
+        if (this.state.noBooleanAtAll.includes(category)){
+            this.setState({noneBoolean: true});
+        }
+        else {
+            this.setState({noneBoolean: false});
+        }
     };
 
     handleDifficultyChange = (event) => {
         this.setState({difficulty: event});
+        if (event === "easy") {
+            this.booleanSetState(this.state.noBooleanEasy.includes(parseInt(this.state.category)));
+        }
+        else if (event === "medium") {
+            this.booleanSetState(this.state.noBooleanMedium.includes(parseInt(this.state.category)));
+        }
+        else if (event === "hard") {
+            this.booleanSetState(this.state.noBooleanHard.includes(parseInt(this.state.category)));
+        }
     };
+
+    booleanSetState = (value) => {
+        if (value){
+            this.setState({noneBooleanInCategory: true});
+        }
+        else {
+            this.setState({noneBooleanInCategory: false});
+        }
+    }
 
     handleQuestionTypeChange = (event) => {
         this.setState({questionType: event});
@@ -54,7 +85,7 @@ export default class welcomePage extends Component {
                     <p style={{color: 'black'}}>
                         Welcome to my TRIVIA game!
                     </p>
-                    <TextField className="home-text" id="standard-basic" label="ENTER YOUR NAME"
+                    <TextField className="home-text" id="outlined-basic" variant="outlined" label="ENTER YOUR NAME"
                                onChange={this.handleTextChange}
                     />
 
@@ -63,8 +94,15 @@ export default class welcomePage extends Component {
                     <Selector_Difficulty className="home-selector" difficulty={this.state.difficulty}
                                          onDifficultyChange={this.handleDifficultyChange}/>
 
-                    <Selector_QuestionType className="home-selector" questionType={this.state.questionType}
-                                           onQuestionTypeChange={this.handleQuestionTypeChange}/>
+                    {(!(this.state.noneBoolean) && !(this.state.noneBooleanInCategory)) && (
+                        <Selector_QuestionType className="home-selector" questionType={this.state.questionType}
+                                               onQuestionTypeChange={this.handleQuestionTypeChange}/>
+                    )}
+
+                    {(this.state.noneBoolean || this.state.noneBooleanInCategory) && (
+                        <Selector_QuestionTypeNoneBoolean className="home-selector" questionType={this.state.questionType}
+                                               onQuestionTypeChange={this.handleQuestionTypeChange}/>
+                    )}
                     <Button style={myStyle} onClick= { () => this.props.onQuestionFetch(this.state.category,
                         this.state.difficulty, this.state.questionType, this.state.userName)}>
                         {this.state.text}
