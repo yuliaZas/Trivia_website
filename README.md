@@ -1,23 +1,35 @@
 # Trivia_website
+Trivia web site.
 shecodes; project
 
 ## Discription
+The application craeted to the use of the elderly people, with simple UI.
+Especially my grandfather.
+
+## How its working
+- The player answers a short form and choosing a category, difficulty and question type.
+- The server recive his form and responde him with 5 questions.
+- At the end of the game the player recive a Feedback with his score.
+- The player can choose to play again.
 
 ## Prerequisites
-**Configuration set-up:**
+**Server, which has the following installed:**
+- Python 3.6 or higher
+- Git
+- Import to the following Python Packages:
+```
+--Flask
+--requests
+--json
+--random
+--html
+```
 
-**Env.requirements :**
+**Client-side, which has the following installed:**
 
-- Download the simulator from : http://home.flightgear.org/
-- Confing setting of the flightgear simulator :
-```
---generic=socket,out,10,127.0.0.1,5400,tcp,generic_small
---telnet=socket,in,10,127.0.0.1,5402,tcp
-```
-- upload the generic_small.xml file your path :
-```
-[file of the flightgear app on our comupter] \data\Protocol
-```
+- NPM v6.12.0
+- Node.js v12.13.0
+- Browser
 
 ## About the application
 
