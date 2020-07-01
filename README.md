@@ -1,9 +1,11 @@
 # Trivia_website
 Trivia web site.
+
 shecodes; project
 
 ## Discription
 The application craeted to the use of the elderly people, with simple UI.
+
 Especially my grandfather.
 
 ## How its working
