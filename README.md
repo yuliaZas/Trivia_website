@@ -47,24 +47,26 @@ The client-side architecture is implemented with React, Using Ajax,Proxy and Mat
 The application has two main commponents:\
 - **Form page :**
 ```
-The palyer fill a form with his name, choosing a category, difficulty and question type(multiple or true/false).
-Once the player click "Play!", an Ajax request sent to the server.
+The palyer fill a form with his name, choosing a category, difficulty and
+question type(multiple or true/false). Once the player click "Play!", an Ajax 
+request sent to the server.
 ```
 <!--- Add the homepage photo --->
 
 - **Qustions page:**
 ```
-The client resive a json respone from the server. The json composed with the question and a list of פossible answers.\
-Whene the player pick answer, another Ajax request sent to the server, to check whether is the correct one.\ 
-If it is correct answer the player will gain one point to his score.\
+The client resive a json respone from the server. The json composed with the question
+and a list of possible answers. Whene the player pick answer, another Ajax request sent to the server,
+to check whether is the correct one. If it is correct answer the player will gain one point to his score.
 When the player click "Next", an Ajax request sent to the server and so on.
 ```
 <!--- Add the questionPage photo --->
 
 ```
-Each game consists of 5 questions.\
-On the fifth question, a "Finish" button appears and by clicking it the player recive a page with his final score.\
-He also get to play again by clicking the "Play again" button, which will lead him to the Form page.
+Each game consists of 5 questions.
+On the fifth question, a "Finish" button appears and by clicking it the player recive a page with 
+his final score. He also get to play again by clicking the "Play again" button,
+which will lead him to the Form page.
 ```
 <!--- Add the score photo --->
 
