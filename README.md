@@ -1,11 +1,9 @@
 # Trivia_website
-Trivia web site.
-
+Trivia web site.\
 shecodes; project
 
 ## Discription
-The application craeted to the use of the elderly people, with simple UI.
-
+The application craeted to the use of the elderly people, with simple UI.\
 Especially my grandfather.
 
 ## How its working
@@ -34,15 +32,16 @@ Especially my grandfather.
 - Browser
 
 ## About the application
+<!--- Add the homepage photo --->
+
+**Backend**
 
 
-![start screen after connection](https://user-images.githubusercontent.com/45918656/72072738-40946780-32f7-11ea-94ec-8d637411fada.png)
 
-**Flying the  aircraft**
+**Frontend**
 
 - **By manual :**
 
-![insert trothel](https://user-images.githubusercontent.com/45918656/72072847-6faad900-32f7-11ea-9811-3de54ac27e6b.png)
 
 - **By auto pilot:**
 ```
