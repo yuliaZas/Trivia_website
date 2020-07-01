@@ -60,7 +60,8 @@ and a list of possible answers. Whene the player pick answer, another Ajax reque
 to check whether is the correct one. If it is correct answer the player will gain one point to his score.
 When the player click "Next", an Ajax request sent to the server and so on.
 ```
-<!--- Add the questionPage photo --->
+
+![QuestionPage](https://user-images.githubusercontent.com/45918656/86248206-3bcdb380-bbb6-11ea-9c31-155e19b4b16e.png)
 
 ```
 Each game consists of 5 questions.
@@ -68,6 +69,8 @@ On the fifth question, a "Finish" button appears and by clicking it the player r
 his final score. He also get to play again by clicking the "Play again" button,
 which will lead him to the Form page.
 ```
-<!--- Add the score photo --->
+
+![FinishPage](https://user-images.githubusercontent.com/45918656/86248218-40926780-bbb6-11ea-8bfc-b2608803cd64.png)
+
 
 
