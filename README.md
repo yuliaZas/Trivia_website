@@ -4,7 +4,7 @@ shecodes; project
 
 ## Discription
 The application craeted to the use of the elderly people, with simple UI.\
-Especially my grandfather.
+Especially for my grandfather.
 
 ## How its working
 - The player answers a short form and choosing a category, difficulty and question type.
@@ -32,34 +32,40 @@ Especially my grandfather.
 - Browser
 
 ## About the application
+
+**Backend**\
+The server side is developed in Python, using Flask.\
+Implementing REST-API architecture, using POST & GET requests.\
+The data is recived from external Api.\
+Once the data is received on the server, it is generated in the server to the wanted response on the client side.\
+The client recives only one question at a time, due to security reasons.\
+The server also handle the Unicode issue.\
+
+
+**Frontend**\
+The client-side architecture is implemented with React, Using Ajax,Proxy and Material-UI.\
+The application has two main commponents:\
+- **Form page :**
+```
+The palyer fill a form with his name, choosing a category, difficulty and question type(multiple or true/false).
+Once the player click "Play!", an Ajax request sent to the server.
+```
 <!--- Add the homepage photo --->
 
-**Backend**
-
-
-
-**Frontend**
-
-- **By manual :**
-
-
-- **By auto pilot:**
+- **Qustions page:**
 ```
-After typing the commands - press the send in order to send the simulator commands.
-In order to see the possible set commands you can check the attache xml file : generic_small.xml
+The client resive a json respone from the server. The json composed with the question and a list of פossible answers.\
+Whene the player pick answer, another Ajax request sent to the server, to check whether is the correct one.\ 
+If it is correct answer the player will gain one point to his score.\
+When the player click "Next", an Ajax request sent to the server and so on.
 ```
+<!--- Add the questionPage photo --->
 
-![changing the throttle by auto command](https://user-images.githubusercontent.com/45918656/72072992-b7316500-32f7-11ea-8f8a-507a13b23af3.png)
+```
+Each game consists of 5 questions.\
+On the fifth question, a "Finish" button appears and by clicking it the player recive a page with his final score.\
+He also get to play again by clicking the "Play again" button, which will lead him to the Form page.
+```
+<!--- Add the score photo --->
 
-- The screen will look like this after sending the command:
-
-![update auto command of throttle](https://user-images.githubusercontent.com/45918656/72073075-da5c1480-32f7-11ea-8868-d885c7040df2.png)
-
-- On the right side of the app you can see the path, while you flying the aircraft.
-
-<img width="462" alt="flightboard screen" src="https://user-images.githubusercontent.com/45918656/72073144-011a4b00-32f8-11ea-85fa-0bd44d40ac05.png">
-
-- Now fly the aircraft with the joystick and try not to crash.
-
-<img width="464" alt="flying the simulator" src="https://user-images.githubusercontent.com/45918656/72073198-1e4f1980-32f8-11ea-9e54-706a6a6be59b.png">
 
