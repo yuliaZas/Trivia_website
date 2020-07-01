@@ -1,6 +1,6 @@
 # Trivia_website
-Trivia web site.\
-shecodes; project
+Trivia website application.\
+Shecodes; project
 
 ## Discription
 The application craeted to the use of the elderly people, with simple UI.\
@@ -39,12 +39,12 @@ Implementing REST-API architecture, using POST & GET requests.\
 The data is recived from external Api.\
 Once the data is received on the server, it is generated in the server to the wanted response on the client side.\
 The client recives only one question at a time, due to security reasons.\
-The server also handle the Unicode issue.\
+The server also handle the Unicode issue.
 
 
 **Frontend**\
 The client-side architecture is implemented with React, Using Ajax,Proxy and Material-UI.\
-The application has two main commponents:\
+The application has two main commponents:
 - **Form page :**
 ```
 The palyer fill a form with his name, choosing a category, difficulty and
