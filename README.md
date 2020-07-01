@@ -51,7 +51,7 @@ The palyer fill a form with his name, choosing a category, difficulty and
 question type(multiple or true/false). Once the player click "Play!", an Ajax 
 request sent to the server.
 ```
-<!--- Add the homepage photo --->
+![homePage](https://user-images.githubusercontent.com/45918656/86247926-d7125900-bbb5-11ea-9fd9-1dbfc4adbed1.png)
 
 - **Qustions page:**
 ```
