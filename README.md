@@ -3,7 +3,7 @@ Trivia website application.\
 Shecodes; project
 
 ## Discription
-The application craeted to the use of the elderly people, with simple UI.\
+The application created to the use of the elderly people, with simple UI.\
 Especially for my grandfather.
 
 ## How its working
